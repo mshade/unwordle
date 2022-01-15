@@ -83,7 +83,7 @@ def get_pairs(prompt):
                 else:
                     error = "Position number must be from 1-5."
 
-            except ValueError:
+            except (IndexError, ValueError):
                 error = "Pairs must be letter and then a number."
 
         if error:
