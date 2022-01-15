@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  unwordle:
+    image: mshade/unwordle
+    build:
+      context: .
+      dockerfile: ./Dockerfile
