@@ -2,6 +2,8 @@
 
 Shamelessly cheat at [Wordle](https://www.powerlanguage.co.uk/wordle/) using Python and a word list.
 
+![UnWordle demo](./demo.png)
+
 Take a guess, and then use UnWordle to get suggestions as you progress.
 
 Enter grey letters (bad guesses) all together. For example, if you guess WEARY, and only the A is in the word, you can respond:
