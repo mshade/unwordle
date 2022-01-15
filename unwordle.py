@@ -246,7 +246,7 @@ def main():
     """Let's unwordle interactively!"""
 
     try:
-        with open("words.json") as word_file:
+        with open("words.json", encoding="utf-8") as word_file:
             all_words = json.load(word_file)
     except EnvironmentError:
         print("Could not open wordlist. Try fetchdict.py!")
