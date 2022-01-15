@@ -10,6 +10,7 @@ guess attempts to narrow results.
 """
 
 import json
+import signal
 import sys
 from pprint import pprint
 
@@ -225,6 +226,9 @@ def filter_words(include, exclude, known_good, known_bad, words):
     words = exclude_letters(exclude, words)
     return words
 
+def signal_handler(sig, frame):
+    """Catch Ctrl-C"""
+    raise Quit
 
 def wordprompt(prompt):
     """Prompt the user for input, normalize, and check for special strings
@@ -236,14 +240,19 @@ def wordprompt(prompt):
         string: lowered, stripped user input. Raises Exceptions if user
         enters a magic word.
     """
-    value = str(input(prompt))
-    menu_options(value)
+    try:
+        value = str(input(prompt))
+        menu_options(value)
+    except EOFError as control_d:
+        raise StartOver from control_d
 
     return value.lower().strip()
 
 
 def main():
     """Let's unwordle interactively!"""
+
+    signal.signal(signal.SIGINT, signal_handler)
 
     try:
         with open("words.json", encoding="utf-8") as word_file:
@@ -260,6 +269,13 @@ def main():
 
     print(colored("\nLet's unWordle!", "green"))
 
+    print("""
+    Hints:
+      - E is the most common letter in English
+      - T, A, O, I, N, S, R are the next most common
+      - Good starters might be: NOTES, RESIN, TARES, SONAR
+    """)
+
     while True:
         try:
 
@@ -267,9 +283,9 @@ def main():
             print(
                 "Enter "
                 + colored('"!"', "red")
-                + " to start over, or "
+                + " or Control-D to start over, or "
                 + colored('"exit"', "red")
-                + " to quit!\n"
+                + " or Control-C to quit!\n"
             )
 
             user = get_letters(f"Enter grey letters: ({exclude}) ")
@@ -314,12 +330,15 @@ def main():
             known_bad = []
             words = all_words
 
+            print("\n\nClearing this word and starting over\n")
+
         except Refresh:
             fetchdict.fetch()
             print("\nDownloaded a fresh dictionary.\n")
 
         except Quit:
-            sys.exit()
+            print("\nBye!")
+            sys.exit(0)
 
 
 if __name__ == "__main__":
