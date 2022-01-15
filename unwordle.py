@@ -226,9 +226,11 @@ def filter_words(include, exclude, known_good, known_bad, words):
     words = exclude_letters(exclude, words)
     return words
 
+
 def signal_handler(sig, frame):
     """Catch Ctrl-C"""
     raise Quit
+
 
 def wordprompt(prompt):
     """Prompt the user for input, normalize, and check for special strings
@@ -269,23 +271,25 @@ def main():
 
     print(colored("\nLet's unWordle!", "green"))
 
-    print("""
+    print(
+        """
     Hints:
       - E is the most common letter in English
       - T, A, O, I, N, S, R are the next most common
       - Good starters might be: NOTES, RESIN, TARES, SONAR
-    """)
+    """
+    )
 
     while True:
         try:
 
-            print("Try a wordle, and tell me what you find out.")
             print(
-                "Enter "
-                + colored('"!"', "red")
-                + " or Control-D to start over, or "
-                + colored('"exit"', "red")
-                + " or Control-C to quit!\n"
+                f"""
+            Try a wordle and tell me what you find out about it!
+
+            {colored('"!"', "red")} or Control-D to start over
+            {colored('"exit"', "red")} or Control-C to quit!
+            """.lstrip()
             )
 
             user = get_letters(f"Enter grey letters: ({exclude}) ")
