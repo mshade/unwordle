@@ -312,7 +312,7 @@ def main():
                 # Remove letter from excludes if it is later
                 # found (in case of two letters)
                 if letter in exclude:
-                    exclude.replace(letter, '')
+                    exclude = exclude.replace(letter, '')
 
             user = get_pairs(
                 f"Enter {colored('yellow', 'yellow')} letters and positions, 1-5 (ex: a3 z5): {known_bad} "
@@ -328,7 +328,7 @@ def main():
                 # Remove letter from excludes if it is later
                 # found (in case of two letters)
                 if letter in exclude:
-                    exclude.replace(letter, '')
+                    exclude = exclude.replace(letter, '')
 
             words = filter_words(include, exclude, known_good, known_bad, words)
 
